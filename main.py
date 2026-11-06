@@ -78,7 +78,7 @@ def load_cabs():
 cabs = load_cabs()
 print("Available cabs:")
 for cab in cabs:
-    print(f"{cab.driver} , {cab.destination} , {cab.time} , Seats:{cab.seats}")
+    print(f"{cab.driver} | {cab.destination} | {cab.time} | Seats:{cab.seats}")
 
 
 # Main menu
