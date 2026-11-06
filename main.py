@@ -1,8 +1,8 @@
-#student ride request
+import json
 
+#student ride request
 class RideRequest:
     def __init__(self,name,destination,time,year):
-
         self.name = name
         self.destination = destination
         self.time = time
@@ -49,6 +49,37 @@ def view_requests():
     for student in waiting_list:
         print(f"{student.name} | {student.destination} | {student.time} | Year {student.year}")
 
+#Cab info
+class Cab:
+    def __init__(self,driver,seats,destination,time):
+        self.driver = driver
+        self.seats = seats
+        self.destination = destination
+        self.time = time
+        self.has_left = False
+        self.passengers = []
+
+#importing cab data from json file
+def load_cabs():
+    cabs = []
+
+    try:
+        with open("cab.json", "r") as file:
+            data = json.load(file)
+            for item in data:
+                #creating a cab object from json data
+                cab = Cab(item["driver"],item["seats"],item["destination"],item["time"])
+                cabs.append(cab)
+    except FileNotFoundError:
+        print("Cab data file is missing")
+
+    return cabs
+
+cabs = load_cabs()
+print("Available cabs:")
+for cab in cabs:
+    print(f"{cab.driver} , {cab.destination} , {cab.time} , Seats:{cab.seats}")
+
 
 # Main menu
 while True:
@@ -72,13 +103,3 @@ while True:
     else:
         print("Invalid choice. Please try again.")
 
-
-#Cab info
-class Cab:
-    def __init__(self,driver,seats,destination,time):
-        self.driver = driver
-        self.seats = seats
-        self.destination = destination
-        self.time = time
-
-        self.passengers = []
