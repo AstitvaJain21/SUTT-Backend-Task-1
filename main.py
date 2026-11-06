@@ -75,6 +75,35 @@ def load_cabs():
 
     return cabs
 
+#matching students with cab
+def preview_matches(cabs,waiting_list):
+    print("Preveiw Matches")
+    for cab in cabs:
+        if cab.has_left:
+            continue
+
+        print(f"\nDriver:{cab.driver}")
+        print(f"Trip Details:{cab.destination} & {cab.time}")
+        eligible_students = []
+        available_seats = cab.seats - len(cab.passengers)
+
+        if available_seats <= 0:
+            print("Cab is Already full")
+            continue
+        
+        for student in waiting_list:
+            if cab.destination == student.destination and cab.time == student.time:
+                eligible_students.append(student)
+
+        selected_students = eligible_students[0:available_seats]
+        if len(selected_students) == 0:
+            print("No eligible students")
+        else:
+            print("Selected students:",len(selected_students))
+            for student in selected_students:
+                print(student.name)
+
+
 cabs = load_cabs()
 print("Available cabs:")
 for cab in cabs:
@@ -86,7 +115,8 @@ while True:
     print("Cab pool matcher")
     print("1. Add ride request")
     print("2. View waiting students")
-    print("3. Quit")
+    print("3. Preview cab matches")
+    print("4. Quit")
 
     choice = input("Enter your choice: ")
 
@@ -97,6 +127,9 @@ while True:
         view_requests()
 
     elif choice == "3":
+            preview_matches(cabs,waiting_list)
+
+    elif choice == "4":
         print("Thanks")
         break
 
