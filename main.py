@@ -22,7 +22,7 @@ def add_request():
         print("Invalid Year.Please enter a number")
 
     #Verification
-    if destination != "Jaipur" or destination != "Delhi":
+    if destination not in ["Jaipur","Delhi"]:
         print("Invalid Destination")
         return
 
@@ -36,7 +36,41 @@ def add_request():
 
     student = RideRequest(name,destination,time,year)
 
+    waiting_list.append(student)
 
+    print("Request Accepted")
+
+def view_requests():
+    
+    if len(waiting_list) == 0:
+        print("No students waiting.")
+        return
+
+    for student in waiting_list:
+        print(f"{student.name} | {student.destination} | {student.time} | Year {student.year}")
+
+
+# Main menu
+while True:
+    print("Cab pool matcher")
+    print("1. Add ride request")
+    print("2. View waiting students")
+    print("3. Quit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        add_request()
+
+    elif choice == "2":
+        view_requests()
+
+    elif choice == "3":
+        print("Thanks")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")
 
 
 #Cab info
@@ -48,32 +82,3 @@ class Cab:
         self.time = time
 
         self.passengers = []
-        
-#assign
-student1 = RideRequest("Rahul", "Delhi","Morning",2)
-student2 = RideRequest("Aman", "Delhi","Morning",5)
-student3 = RideRequest("Karan", "Jaipur","Evening",3)
-
-cab1 = Cab("Raj",4,"Delhi","Morning")
-cab2 = Cab("Mohan",3,"Jaipur","Evening")
-
-#prints
-print("CAB POOL MATCHER")
-
-print("\nStudent Information:")
-
-print(student1.name, student1.year)
-print(student2.name, student2.year)
-print(student3.name, student3.year)
-
-print("\nCab Information:")
-
-print(cab1.driver)
-print(cab1.destination)
-print(cab1.time)
-print(cab1.seats)
-
-print(cab2.driver)
-print(cab2.destination)
-print(cab2.time)
-print(cab2.seats)
