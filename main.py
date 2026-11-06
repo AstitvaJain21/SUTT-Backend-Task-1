@@ -21,6 +21,21 @@ def add_request():
     except ValueError:
         print("Invalid Year.Please enter a number")
 
+    #Verification
+    if destination != "Jaipur" or destination != "Delhi":
+        print("Invalid Destination")
+        return
+
+    if time not in ["Morning","Afternoon","Evening","Night"]:
+        print("Invalid Time")
+        return
+
+    if year < 1 or year > 5:
+        print("Year must be between 1 to 5")
+        return
+
+    student = RideRequest(name,destination,time,year)
+
 
 
 
