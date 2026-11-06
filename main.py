@@ -16,10 +16,10 @@ def add_request():
     name = input("Enter Name:")
     destination = input("Destination(Delhi/Jaipur):").title()
     time = input("Time(Morning/Afternoon/Evening/Night):").title()
-    year = int(input("Enter Year(1-5):"))
-
-
-
+    try:
+        year = int(input("Enter Year(1-5):"))
+    except ValueError:
+        print("Invalid Year.Please enter a number")
 
 
 
