@@ -1,5 +1,8 @@
 import json
+#using heap as it is more easy than a list and has better in-built functions
 import heapq
+
+waiting_list = []
 
 #student ride request
 class RideRequest:
@@ -9,8 +12,6 @@ class RideRequest:
         self.time = time
         self.year = year
         self.order = order
-
-waiting_list = []
 
 #Taking input from User
 def add_request():
@@ -105,6 +106,22 @@ def preview_matches(cabs,waiting_list):
             for student in selected_students:
                 print(student.name)
 
+def priority_queue(waiting_list):
+    #making a dictionary queue which will store a priority list for each trip
+    queues = {}
+    for student in waiting_list:
+        #making a tuple trip which stores student's trip details
+        trip = (student.destination,student.time)
+
+        #create a key for each trip with value as priority list
+        if trip not in queues:
+            queues[trip] = []
+
+        #adding each student acc to trip details
+        heapq.heappush(queues[trip],(-student.year,student.order,student))
+        #using -student.year as heap sorts in ascending order
+    
+    return queues
 
 cabs = load_cabs()
 print("Available cabs:")
