@@ -3,7 +3,7 @@ import json
 import heapq
 
 waiting_list = []
-
+counter = 0
 #student ride request
 class RideRequest:
     def __init__(self,name,destination,time,year,order):
@@ -23,6 +23,7 @@ def add_request():
         year = int(input("Enter Year(1-5):"))
     except ValueError:
         print("Invalid Year.Please enter a number")
+        return
 
     #Verification
     if destination not in ["Jaipur","Delhi"]:
@@ -37,7 +38,9 @@ def add_request():
         print("Year must be between 1 to 5")
         return
 
-    student = RideRequest(name,destination,time,year)
+    global counter
+    counter = counter + 1
+    student = RideRequest(name,destination,time,year,counter)
 
     waiting_list.append(student)
 
@@ -80,6 +83,7 @@ def load_cabs():
 
 #matching students with cab
 def preview_matches(cabs,waiting_list):
+    queues = build_priority_queue(waiting_list)
     print("Preveiw Matches")
     for cab in cabs:
         if cab.has_left:
@@ -89,24 +93,29 @@ def preview_matches(cabs,waiting_list):
         print(f"Trip Details:{cab.destination} & {cab.time}")
         eligible_students = []
         available_seats = cab.seats - len(cab.passengers)
-
+        
+        #making priority list for cab;s trip details
+        trip = (cab.destination,cab.time)
+        priority_queue = queues.get(trip,[])
+        
         if available_seats <= 0:
             print("Cab is Already full")
             continue
 
-        for student in waiting_list:
-            if cab.destination == student.destination and cab.time == student.time:
-                eligible_students.append(student)
+        #selecting student as per priority
+        selected = heapq.nsmallest(available_seats,priority_queue)
 
         selected_students = eligible_students[0:available_seats]
         if len(selected_students) == 0:
             print("No eligible students")
         else:
             print("Selected students:",len(selected_students))
-            for student in selected_students:
+
+            for entry in selected:
+                student = entry[2]
                 print(student.name)
 
-def priority_queue(waiting_list):
+def build_priority_queue(waiting_list):
     #making a dictionary queue which will store a priority list for each trip
     queues = {}
     for student in waiting_list:
