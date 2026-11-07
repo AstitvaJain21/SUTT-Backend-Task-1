@@ -91,7 +91,7 @@ def preview_matches(cabs,waiting_list):
 
         print(f"\nDriver:{cab.driver}")
         print(f"Trip Details:{cab.destination} & {cab.time}")
-        eligible_students = []
+        
         available_seats = cab.seats - len(cab.passengers)
         
         #making priority list for cab;s trip details
@@ -105,11 +105,10 @@ def preview_matches(cabs,waiting_list):
         #selecting student as per priority
         selected = heapq.nsmallest(available_seats,priority_queue)
 
-        selected_students = eligible_students[0:available_seats]
-        if len(selected_students) == 0:
+        if len(selected) == 0:
             print("No eligible students")
         else:
-            print("Selected students:",len(selected_students))
+            print("Selected students:",len(selected))
 
             for entry in selected:
                 student = entry[2]
