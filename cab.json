@@ -2,7 +2,7 @@
 [
     {
         "driver": "Raj",
-        "seats": 4,
+        "seats": 2,
         "destination": "Delhi",
         "time": "Morning"
     },

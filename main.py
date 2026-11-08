@@ -38,6 +38,7 @@ def add_request():
         print("Year must be between 1 to 5")
         return
 
+    #adding a order to each request
     global counter
     counter = counter + 1
     student = RideRequest(name,destination,time,year,counter)
