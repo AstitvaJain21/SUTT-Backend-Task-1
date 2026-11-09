@@ -132,6 +132,57 @@ def build_priority_queue(waiting_list):
     
     return queues
 
+def dispatch_cabs(cabs,waiting_list):
+    #we want the user to chose which cab will leave and when
+    print("Available cabs:")
+
+    #using enumarate helps in getting both index and the value
+    for i,cab in enumerate(cabs):
+        if not cab.has_left:
+            print(f"{i+1}. {cab.driver} | Trip:{cab.destination} , {cab.time} | Seats: {cab.seats}")
+
+    #taking input of which cab has to leave
+    try:
+        choice = int(input("Enter the cab number to dispatch:"))
+    except ValueError:
+        print("Please enter a valid number")
+        return
+
+    #verification of cab number
+    if choice < 1 or choice > len(cabs):
+        print("Invalid cab number")
+        return
+
+    cab = cabs[choice - 1]
+
+    if cab.has_left:
+        print("Cab has already departed")
+        return
+
+    queues = build_priority_queue(waiting_list)
+    trip = (cab.destination,cab.time)
+    priority_queue = queues.get(trip,[])
+
+    available = cab.seats - len(cab.passengers)
+    selected = heapq.nsmallest(available,priority_queue)
+
+    if available <= 0:
+        print("Cab is full")
+        return
+    
+    if len(selected) == 0:
+        print("No students availablefor this trip")
+        return
+
+    for entry in selected:
+        student = entry[2]
+
+        cab.passengers.append(student)
+        waiting_list.remove(student)
+
+    cab.has_left = True
+    print("Cab dispatched succesfully")
+
 cabs = load_cabs()
 print("Available cabs:")
 for cab in cabs:
@@ -144,7 +195,8 @@ while True:
     print("1. Add ride request")
     print("2. View waiting students")
     print("3. Preview cab matches")
-    print("4. Quit")
+    print("4. Dispatch Cab")
+    print("5. Quit")
 
     choice = input("Enter your choice: ")
 
@@ -158,8 +210,11 @@ while True:
             preview_matches(cabs,waiting_list)
 
     elif choice == "4":
-        print("Thanks")
-        break
+        dispatch_cabs(cabs,waiting_list)
+
+    elif choice == "5":
+            print("Thanks")
+            break
 
     else:
         print("Invalid choice. Please try again.")
