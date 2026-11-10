@@ -16,7 +16,7 @@ class RideRequest:
 #Taking input from User
 def add_request():
     print("Add ride request")
-    name = input("Enter Name:")
+    name = input("Enter Name:").title()
     destination = input("Destination(Delhi/Jaipur):").title()
     time = input("Time(Morning/Afternoon/Evening/Night):").title()
     try:
@@ -38,7 +38,7 @@ def add_request():
         print("Year must be between 1 to 5")
         return
 
-    #adding a order to each request
+    #Adding a order to each request in case of same year
     global counter
     counter = counter + 1
     student = RideRequest(name,destination,time,year,counter)
