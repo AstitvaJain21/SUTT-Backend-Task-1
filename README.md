@@ -85,3 +85,56 @@ SUTT-Backend-Task-1/
 - **cab.json** : Stores the initial cab information.
 - **README.md** : Project documentation.
 
+
+## 6. Cab Data:
+![alt text](image.png)
+
+## 7. How to Run the Project
+
+### Steps:
+
+1. Download the project for GitHub.
+2. Open the project directory in your terminal.
+3. Ensure **main.py** and **cab.json** are in the same directory.
+4. Run `python3 main.py` in the terminal.
+
+## 8. Application Menu
+
+When the program starts, it displays the available cabs and the following menu:
+
+![alt text](image-1.png)
+
+Select an option by entering its corresponding number.
+
+### 1. Add Ride Request
+
+Entering `1` in the menu navigates to adding a ride request and opens the following menu:
+
+![alt text](image-2.png)
+
+In case of wrong inputs the program prints a message instead of an Error
+
+#### Error 1: Entering wrong destination or time slot:
+
+In case of wrong destination or time slot a message appears:
+![alt text](image-3.png)
+
+#### Error 2: Entering a non integer in year
+In case of input for year in a non integer in year following message is printed.
+![alt text](image-4.png)
+
+### 2. View waiting Students
+
+Entering `2` prints the students added succesfully. and prints a message if there is none.
+![alt text](image-5.png)
+
+### 3. Preview Matches
+
+Entering `3` prints list of cab drivers who have not departed and matches student as per their available seats.
+![alt text](image-6.png)
+
+### 4. Dispatch Cab
+
+Entering `4` asks the user to enter the cab number which has to be dispatched irrespective of how many seats have been filled.
+![alt text](image-7.png)
+
