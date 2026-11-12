@@ -138,3 +138,50 @@ Entering `3` prints list of cab drivers who have not departed and matches studen
 Entering `4` asks the user to enter the cab number which has to be dispatched irrespective of how many seats have been filled.
 ![alt text](image-7.png)
 
+### 5. Quit
+
+Entering `5` terminates the program.
+
+## Answers to question
+
+### 1. Half empty cab
+
+A cab does not need to be completely full before it can leave.
+
+In the code, available seats are calculated by subtracting the number of existing passengers from the total seats:
+
+`available = cab.seats - len(cab.passengers)`
+
+Then the program select students according to their priority, up to the number of available seats.
+
+And the User tells which cab will leave.
+
+If there are less number of students waiting for the cab than the number of available seats and the User selects to dispatch the cab, the cab is marked as dispatch and the students are removed from the waitibg list. And now more students can not join that cab.
+
+### 2. No Cabs left
+
+If all cabs for a particular trips have departed then students for those trips can add their request but they will stay in the waiting list as they is no such function to add cab. The student's request will remain in the waiting list.
+
+#### Solution:
+1. Display all trips which have no driver on it yet.
+2. Add another list which stores the info of students travelling in trips with no cabs.
+
+### 3. Same year priority
+
+If two or more students belong to the same academic year, the student who submitted their request first should get priority.
+
+To handle this, The program use a counter that increases every time a valid request is accepted.
+
+Then students are added into the priority queue using:
+
+`
+heapq.heappush(queues[trip],(-student.year, student.order, student)
+)
+`
+
+Which uses negative year because Python's heap sorts values in ascending order. This makes higher-year students get priority. And students with same year are selected as per their order.
+
+### 4. Lots of students
+
+The program uses Python's **heapq** module to manage student priorities which in very efficient as it has less time complexity.
+
