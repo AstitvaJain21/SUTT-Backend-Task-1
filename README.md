@@ -77,11 +77,13 @@ Each student is inserted into a heap as a tuple with the following data:
 SUTT-Backend-Task-1/
 │
 ├── main.py
+├── saved_data.json
 ├── cab.json
 └── README.md
 ```
 
 - **main.py** : Contains the application logic, classes, functions, and menu.
+- **saved_data.json** : Stores saved request and cab information.
 - **cab.json** : Stores the initial cab information.
 - **README.md** : Project documentation.
 
