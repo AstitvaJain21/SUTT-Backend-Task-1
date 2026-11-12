@@ -47,6 +47,9 @@ def add_request():
 
     print("Request Accepted")
 
+    #saving it in json file
+    save_data(cabs,waiting_list)
+
 def view_requests():
     
     if len(waiting_list) == 0:
@@ -81,6 +84,44 @@ def load_cabs():
         print("Cab data file is missing")
 
     return cabs
+
+#loading saved data from json file
+def load_saved_data():
+    global counter
+
+    try:
+        with open("saved_data.json","r") as file:
+            data = json.load(file)
+
+            # changing counter as per saved data
+            counter = data["counter"]
+
+            waiting_list = []
+
+            # restoring student data    
+            for item in data["waiting_list"]:
+                student = RideRequest(item["name"],item["destination"],item["time"],item["year"],item["order"])
+                waiting_list.append(student)
+
+            # restoring cab data
+            cabs = []
+
+            for item in data["cabs"]:
+                cab = Cab(item["driver"],item["seats"],item["destination"],item["time"])
+                cab.has_left = item["has_left"]
+
+                #restoring passengers
+                for passenger in item["passengers"]:
+                    student = RideRequest(passenger["name"],passenger["destination"],passenger["time"],passenger["year"],passenger["order"])
+                    cab.passengers.append(student)
+                cabs.append(cab)
+
+            print("Previous Data loaded")
+            return cabs,waiting_list
+        
+    except FileNotFoundError:
+        print("No previous data.")
+        return load_cabs(), []
 
 #matching students with cab
 def preview_matches(cabs,waiting_list):
@@ -132,6 +173,61 @@ def build_priority_queue(waiting_list):
     
     return queues
 
+# saving data in a json file
+def save_data(cabs, waiting_list):
+    data = {}
+
+    #saving the counter
+    data["counter"] = counter
+
+    #saving all waiting students
+    data["waiting_list"] = []
+
+    for student in waiting_list:
+        student_data = {
+            "name": student.name,
+            "destination": student.destination,
+            "time": student.time,
+            "year": student.year,
+            "order": student.order
+        }
+
+        data["waiting_list"].append(student_data)
+
+    # saving all cab details
+    data["cabs"] = []
+
+    for cab in cabs:
+        cab_data = {
+            "driver": cab.driver,
+            "seats": cab.seats,
+            "destination": cab.destination,
+            "time": cab.time,
+            "has_left": cab.has_left,
+            "passengers": []
+        }
+
+        # saving the passengers in each cab
+        for student in cab.passengers:
+            passenger_data = {
+                "name": student.name,
+                "destination": student.destination,
+                "time": student.time,
+                "year": student.year,
+                "order": student.order
+            }
+
+            cab_data["passengers"].append(passenger_data)
+
+        data["cabs"].append(cab_data)
+
+    # Writing everything into the JSON file
+    with open("saved_data.json", "w") as file:
+        json.dump(data, file, indent=4)
+
+    print("Data saved successfully!")
+
+
 def dispatch_cabs(cabs,waiting_list):
     #we want the user to chose which cab will leave and when
     print("Available cabs:")
@@ -182,8 +278,9 @@ def dispatch_cabs(cabs,waiting_list):
 
     cab.has_left = True
     print("Cab dispatched succesfully")
+    save_data(cabs,waiting_list)
 
-cabs = load_cabs()
+cabs ,waiting_list = load_saved_data()
 print("Available cabs:")
 for cab in cabs:
     print(f"{cab.driver} | {cab.destination} | {cab.time} | Seats:{cab.seats}")
