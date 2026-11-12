@@ -314,6 +314,7 @@ while True:
 
     elif choice == "5":
             print("Thanks")
+            save_data(cabs,waiting_list)
             break
 
     else:
