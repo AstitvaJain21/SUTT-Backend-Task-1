@@ -122,6 +122,9 @@ def load_saved_data():
     except FileNotFoundError:
         print("No previous data.")
         return load_cabs(), []
+    except (json.JSONDecodeError,KeyError, TypeError):
+        return load_cabs(),[]
+
 
 #matching students with cab
 def preview_matches(cabs,waiting_list):
